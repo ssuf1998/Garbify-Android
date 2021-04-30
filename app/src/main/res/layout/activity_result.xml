@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/main_activity_bg"
+    tools:context=".ResultActivity">
+
+    <View
+        android:id="@+id/previewImgShadow"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/theme_color_100"
+        app:layout_constraintBottom_toBottomOf="@id/previewImg"
+        app:layout_constraintEnd_toEndOf="@id/previewImg"
+        app:layout_constraintStart_toStartOf="@id/previewImg"
+        app:layout_constraintTop_toTopOf="@id/previewImg" />
+
+    <ImageView
+        android:id="@+id/previewImg"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:foreground="@color/theme_color_104"
+        android:scaleType="centerCrop"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintStart_toEndOf="@id/moreClassesGuideLeft"
+        app:layout_constraintEnd_toStartOf="@id/moreClassesGuideRight"
+        app:layout_constraintTop_toBottomOf="@id/previewImgGuideTop" />
+
+    <TextView
+        android:id="@+id/classNameText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="@id/previewImg"
+        app:layout_constraintTop_toBottomOf="@id/previewImg"/>
+
+    <ImageView
+        android:id="@+id/typeNameImg"
+        android:layout_width="0dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="8dp"
+        android:scaleType="fitStart"
+        app:layout_constraintDimensionRatio="3:1"
+        app:layout_constraintEnd_toEndOf="@id/previewImg"
+        app:layout_constraintTop_toBottomOf="@id/classNameText"
+        app:tint="?attr/colorPrimary" />
+
+    <TextView
+        android:id="@+id/moreClassesOneText"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="6dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@id/moreClassesTwoText"
+        app:layout_constraintStart_toStartOf="@id/moreClassesGuideLeft"
+        app:layout_constraintTop_toBottomOf="@id/typeNameImg"
+        app:layout_constraintVertical_bias="0.55"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <ProgressBar
+        android:id="@+id/moreClassesOneProg"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="24dp"
+        android:max="100"
+        android:progressDrawable="@drawable/more_classes_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@id/moreClassesOneText"
+        app:layout_constraintEnd_toStartOf="@id/moreClassesGuideRight"
+        app:layout_constraintStart_toEndOf="@+id/moreClassesOneText"
+        app:layout_constraintTop_toTopOf="@id/moreClassesOneText" />
+
+    <TextView
+        android:id="@+id/moreClassesTwoText"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="6dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toTopOf="@id/moreClassesThreeText"
+        app:layout_constraintStart_toStartOf="@id/moreClassesGuideLeft"
+        app:layout_constraintTop_toBottomOf="@id/moreClassesOneText" />
+
+    <ProgressBar
+        android:id="@+id/moreClassesTwoProg"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="24dp"
+        android:max="100"
+        android:progressDrawable="@drawable/more_classes_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@id/moreClassesTwoText"
+        app:layout_constraintEnd_toStartOf="@id/moreClassesGuideRight"
+        app:layout_constraintStart_toEndOf="@+id/moreClassesTwoText"
+        app:layout_constraintTop_toTopOf="@id/moreClassesTwoText" />
+
+    <TextView
+        android:id="@+id/moreClassesThreeText"
+        android:layout_width="72dp"
+        android:layout_height="wrap_content"
+        android:paddingVertical="6dp"
+        android:textAlignment="textEnd"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@id/moreClassesGuideLeft"
+        app:layout_constraintTop_toBottomOf="@id/moreClassesTwoText" />
+
+    <ProgressBar
+        android:id="@+id/moreClassesThreeProg"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="0dp"
+        android:layout_height="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_marginEnd="24dp"
+        android:max="100"
+        android:progressDrawable="@drawable/more_classes_progress_bar"
+        app:layout_constraintBottom_toBottomOf="@id/moreClassesThreeText"
+        app:layout_constraintEnd_toStartOf="@id/moreClassesGuideRight"
+        app:layout_constraintStart_toEndOf="@+id/moreClassesThreeText"
+        app:layout_constraintTop_toTopOf="@id/moreClassesThreeText" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/previewImgGuideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.07" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/moreClassesGuideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.2" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/moreClassesGuideRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.8" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

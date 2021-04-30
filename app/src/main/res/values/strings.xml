@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">Garbify</string>
+    <string name="live_classify_btn_text">开始分类</string>
+    <string name="slogan">垃圾分类小助手</string>
+    <string name="pick_a_pic_btn_text">从相册选择</string>
+
+    <string name="yes_btn_text">好</string>
+    <string name="no_btn_text">不好</string>
+
+    <string name="grant_title">权限请求</string>
+    <string name="grant_camera_msg">该功能需要相机权限，请授权。</string>
+</resources>

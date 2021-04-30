@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:bottom="12dp"
+        android:left="12dp"
+        android:right="12dp"
+        android:top="12dp">
+
+        <selector>
+            <item
+                android:drawable="@drawable/ic_lock_open"
+
+                android:state_checked="false" />
+
+            <item
+                android:drawable="@drawable/ic_lock"
+                android:state_checked="true" />
+        </selector>
+    </item>
+</layer-list>
