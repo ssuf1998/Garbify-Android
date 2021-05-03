@@ -1,7 +1,5 @@
 package indi.ssuf1998.garbify;
 
-import androidx.annotation.NonNull;
-
 import java.util.HashMap;
 import java.util.Optional;
 

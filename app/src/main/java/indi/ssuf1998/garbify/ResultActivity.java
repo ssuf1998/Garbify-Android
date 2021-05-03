@@ -2,8 +2,8 @@ package indi.ssuf1998.garbify;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
+import android.net.Uri;
 import android.os.Bundle;
-import android.util.DisplayMetrics;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -12,6 +12,8 @@ import java.util.List;
 
 import indi.ssuf1998.garbify.databinding.ActivityResultBinding;
 import indi.ssuf1998.garbify.predictor.ReadablePredict;
+
+import static indi.ssuf1998.garbify.Utils.dp2px;
 
 public class ResultActivity extends InnerActivity {
   private ActivityResultBinding binding;
@@ -24,6 +26,10 @@ public class ResultActivity extends InnerActivity {
 
     initUI();
     bindListeners();
+  }
+
+  @Override
+  protected void initDB() {
 
   }
 
@@ -33,20 +39,20 @@ public class ResultActivity extends InnerActivity {
     ObjectAnimator shadowAnimX = ObjectAnimator.ofFloat(
       binding.previewImgShadow,
       "translationX",
-      0, -dp2px(14));
+      0, -dp2px(this, 14));
     ObjectAnimator shadowAnimY = ObjectAnimator.ofFloat(
       binding.previewImgShadow,
       "translationY",
-      0, -dp2px(14));
+      0, -dp2px(this, 14));
 
     ObjectAnimator previewAnimX = ObjectAnimator.ofFloat(
       binding.previewImg,
       "translationX",
-      0, dp2px(14));
+      0, dp2px(this, 14));
     ObjectAnimator previewAnimY = ObjectAnimator.ofFloat(
       binding.previewImg,
       "translationY",
-      0, dp2px(14));
+      0, dp2px(this, 14));
 
     AnimatorSet shadowAnimSet = new AnimatorSet();
     shadowAnimSet.playTogether(shadowAnimX, shadowAnimY,
@@ -55,7 +61,9 @@ public class ResultActivity extends InnerActivity {
     shadowAnimSet.setDuration(500);
     shadowAnimSet.start();
 
-    binding.previewImg.setImageURI(getIntent().getParcelableExtra("imgUri"));
+    binding.previewImg.setImageURI(Uri.parse(
+      getIntent().getStringExtra("imgPath")
+    ));
 
     List<ReadablePredict> predicts = (List<ReadablePredict>)
       getIntent().getSerializableExtra("predicts");
@@ -98,10 +106,4 @@ public class ResultActivity extends InnerActivity {
   protected void bindListeners() {
 
   }
-
-  private float dp2px(float dp) {
-    return dp * ((float) getResources().getDisplayMetrics().densityDpi / DisplayMetrics.DENSITY_DEFAULT);
-  }
-
-
 }

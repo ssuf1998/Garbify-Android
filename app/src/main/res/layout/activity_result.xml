@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/main_activity_bg"
     tools:context=".ResultActivity">
 
     <View
@@ -24,8 +23,8 @@
         android:foreground="@color/theme_color_104"
         android:scaleType="centerCrop"
         app:layout_constraintDimensionRatio="1:1"
-        app:layout_constraintStart_toEndOf="@id/moreClassesGuideLeft"
         app:layout_constraintEnd_toStartOf="@id/moreClassesGuideRight"
+        app:layout_constraintStart_toEndOf="@id/moreClassesGuideLeft"
         app:layout_constraintTop_toBottomOf="@id/previewImgGuideTop" />
 
     <TextView
@@ -35,7 +34,7 @@
         android:layout_marginTop="24dp"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@id/previewImg"
-        app:layout_constraintTop_toBottomOf="@id/previewImg"/>
+        app:layout_constraintTop_toBottomOf="@id/previewImg" />
 
     <ImageView
         android:id="@+id/typeNameImg"
@@ -48,16 +47,23 @@
         app:layout_constraintTop_toBottomOf="@id/classNameText"
         app:tint="?attr/colorPrimary" />
 
-    <TextView
+    <indi.ssuf1998.garbify.MarqueeTextView
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:id="@+id/moreClassesOneText"
-        android:layout_width="72dp"
+        android:layout_width="84dp"
         android:layout_height="wrap_content"
-        android:paddingVertical="6dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
         android:textAlignment="textEnd"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:paddingVertical="6dp"
         app:layout_constraintBottom_toTopOf="@id/moreClassesTwoText"
         app:layout_constraintStart_toStartOf="@id/moreClassesGuideLeft"
         app:layout_constraintTop_toBottomOf="@id/typeNameImg"
-        app:layout_constraintVertical_bias="0.55"
+        app:layout_constraintVertical_bias="0.4"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <ProgressBar
@@ -74,12 +80,19 @@
         app:layout_constraintStart_toEndOf="@+id/moreClassesOneText"
         app:layout_constraintTop_toTopOf="@id/moreClassesOneText" />
 
-    <TextView
+    <indi.ssuf1998.garbify.MarqueeTextView
         android:id="@+id/moreClassesTwoText"
-        android:layout_width="72dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_width="84dp"
         android:layout_height="wrap_content"
-        android:paddingVertical="6dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
         android:textAlignment="textEnd"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:paddingVertical="6dp"
         app:layout_constraintBottom_toTopOf="@id/moreClassesThreeText"
         app:layout_constraintStart_toStartOf="@id/moreClassesGuideLeft"
         app:layout_constraintTop_toBottomOf="@id/moreClassesOneText" />
@@ -98,12 +111,19 @@
         app:layout_constraintStart_toEndOf="@+id/moreClassesTwoText"
         app:layout_constraintTop_toTopOf="@id/moreClassesTwoText" />
 
-    <TextView
+    <indi.ssuf1998.garbify.MarqueeTextView
         android:id="@+id/moreClassesThreeText"
-        android:layout_width="72dp"
+        android:layout_width="84dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:layout_height="wrap_content"
-        android:paddingVertical="6dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
         android:textAlignment="textEnd"
+        android:focusableInTouchMode="true"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:paddingVertical="6dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/moreClassesGuideLeft"
         app:layout_constraintTop_toBottomOf="@id/moreClassesTwoText" />
@@ -127,7 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.07" />
+        app:layout_constraintGuide_percent="0.1" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/moreClassesGuideLeft"

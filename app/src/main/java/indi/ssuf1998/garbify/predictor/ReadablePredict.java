@@ -61,14 +61,4 @@ public class ReadablePredict implements Serializable {
     this.confidence = confidence;
   }
 
-  @Override
-  public String toString() {
-    return "ReadablePredict{" +
-      "type=" + type +
-      ", className='" + className + '\'' +
-      ", classIdx=" + classIdx +
-      ", typeName='" + typeName + '\'' +
-      ", confidence=" + confidence +
-      '}';
-  }
 }

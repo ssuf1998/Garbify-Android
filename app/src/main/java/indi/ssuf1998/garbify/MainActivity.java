@@ -1,34 +1,29 @@
 package indi.ssuf1998.garbify;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
-import android.widget.Toast;
+import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.viewpager2.adapter.FragmentStateAdapter;
+import androidx.viewpager2.widget.ViewPager2;
 
-import java.io.Serializable;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import es.dmoral.toasty.Toasty;
 import indi.ssuf1998.garbify.databinding.ActivityMainBinding;
-import indi.ssuf1998.garbify.predictor.Predictor;
-import indi.ssuf1998.garbify.predictor.ReadablePredict;
+import indi.ssuf1998.garbify.db.DaoMaster;
+import indi.ssuf1998.garbify.db.DaoSession;
+import indi.ssuf1998.garbify.db.HistoryDao;
+import indi.ssuf1998.garbify.db.def.History;
 
 public class MainActivity extends InnerActivity {
   private ActivityMainBinding binding;
-  private Predictor predictor;
+  private static final int NUM_PAGES = 2;
+  private Adapter adapter;
 
-  private boolean cameraGranted = false;
-  private YesNoBottomSheet cameraGrantSheet;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -38,99 +33,57 @@ public class MainActivity extends InnerActivity {
 
     initUI();
     bindListeners();
+  }
 
-    predictor = new Predictor(this);
+  @Override
+  protected void initDB() {
+
   }
 
   @Override
   protected void initUI() {
-    cameraGrantSheet = new YesNoBottomSheet(
-      getString(R.string.grant_title),
-      getString(R.string.grant_camera_msg)
-    );
+    adapter = new Adapter(this);
+    binding.wrapper.setAdapter(adapter);
+    binding.wrapper.setOffscreenPageLimit(2);
   }
 
   @Override
   protected void bindListeners() {
-    binding.pickAPicBtn.setOnClickListener(view -> {
-      final Intent intent = new Intent();
-      intent.setType("image/*");
-      intent.setAction(Intent.ACTION_GET_CONTENT);
-      startActivityForResult(Intent.createChooser(intent, null),
-        Const.PICK_IMG_REQUEST);
+    binding.navBar.setOnNavigationItemSelectedListener(item -> {
+      if (item.getItemId() == R.id.navHome) binding.wrapper.setCurrentItem(0, true);
+      if (item.getItemId() == R.id.navUser) binding.wrapper.setCurrentItem(1, true);
+      return true;
     });
 
-    cameraGrantSheet.setBtnClickListener((id, view) -> {
-      if (id == YesNoBottomSheet.ButtonId.YES_BTN) {
-        cameraGranted = askForPermissions(false);
+    binding.wrapper.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
+      @Override
+      public void onPageSelected(int position) {
+        super.onPageSelected(position);
+        binding.navBar.getMenu().getItem(position).setChecked(true);
       }
-      cameraGrantSheet.dismiss();
     });
-
-    binding.livePredictBtn.setOnClickListener(view -> {
-      cameraGranted = askForPermissions(true);
-      if (!cameraGranted) {
-        cameraGrantSheet.show(getSupportFragmentManager());
-        return;
-      }
-      Intent intent = new Intent(MainActivity.this, LivePredictActivity.class);
-      startActivity(intent);
-    });
-  }
-
-  private boolean askForPermissions(boolean justAsk) {
-    int hasCameraPermission = ContextCompat.checkSelfPermission(
-      getApplication(),
-      Manifest.permission.CAMERA
-    );
-    if (hasCameraPermission != PackageManager.PERMISSION_GRANTED) {
-      if (!justAsk) {
-        ActivityCompat.requestPermissions(this,
-          new String[]{Manifest.permission.CAMERA},
-          Const.ASK_FOR_CAMERA);
-      }
-      return false;
-    }
-    return true;
-  }
-
-  @Override
-  public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                         @NonNull int[] grantResults) {
-    if (requestCode == Const.ASK_FOR_CAMERA) {
-      if (grantResults.length > 0 &&
-        grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-        cameraGranted = true;
-        binding.livePredictBtn.performClick();
-      }
-    }
   }
 
   @Override
   protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
-
-    if (resultCode == RESULT_OK) {
-      if (requestCode == Const.PICK_IMG_REQUEST) {
-        try {
-          assert data != null;
-          final Uri uri = data.getData();
-          List<ReadablePredict> predicts = Arrays.asList(
-            predictor.getReadablePredicts(predictor.run(uri))
-          );
-          Intent intent = new Intent(MainActivity.this, ResultActivity.class);
-          intent.putExtra("predicts", (Serializable) predicts);
-          intent.putExtra("imgUri", uri);
-          startActivity(intent);
-        } catch (Exception e) {
-          Toasty.error(
-            MainActivity.this,
-            Optional.ofNullable(e.getMessage()).orElse("Unknown error."),
-            Toast.LENGTH_SHORT
-          ).show();
-        }
-      }
-    }
   }
 
+  private static class Adapter extends FragmentStateAdapter {
+    public Adapter(AppCompatActivity activity) {
+      super(activity);
+    }
+
+    @Override
+    public Fragment createFragment(int position) {
+      if (position == 0) return new HomeFragment();
+      if (position == 1) return new UserFragment();
+      return null;
+    }
+
+    @Override
+    public int getItemCount() {
+      return NUM_PAGES;
+    }
+  }
 }

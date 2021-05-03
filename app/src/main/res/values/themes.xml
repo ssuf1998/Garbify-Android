@@ -10,24 +10,18 @@
         <!--        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimary</item>-->
         <!-- Customize your theme here. -->
         <item name="android:windowLightStatusBar">true</item>
-        <item name="android:statusBarColor">@color/theme_color_103</item>
-
+        <item name="android:statusBarColor">@android:color/white</item>
         <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">
             shortEdges
         </item>
     </style>
 
 
-    <style name="LaunchScreenActivity" parent="Theme.Garbify">
-        <item name="android:windowFullscreen">true</item>
-    </style>
-
     <style name="LivePredictActivity" parent="Theme.Garbify">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
 
         <item name="android:windowTranslucentStatus">true</item>
-        <item name="android:windowTranslucentNavigation">true</item>
         <item name="android:windowFullscreen">true</item>
     </style>
 

@@ -21,17 +21,21 @@ public class YesNoBottomSheet extends BaseBottomSheet {
   }
 
   private YesNoBottomSheetBinding binding;
-  private final String msgText;
+  private String msgText;
+  private boolean onlyYes;
   private BtnClickListener mBtnClickListener = (id, view) -> {
   };
 
-  public YesNoBottomSheet(String titleText, String subTitleText, String msgText) {
+  private String yesText;
+  private String noText;
+
+  public YesNoBottomSheet(String titleText, String subTitleText, String msgText, boolean onlyYes) {
     super(titleText, subTitleText);
     this.msgText = msgText;
   }
 
   public YesNoBottomSheet(String titleText, String msgText) {
-    this(titleText, "", msgText);
+    this(titleText, "", msgText, false);
   }
 
   @Nullable
@@ -58,6 +62,7 @@ public class YesNoBottomSheet extends BaseBottomSheet {
   protected void initUI() {
     super.initUI();
     binding.msgText.setText(msgText);
+    binding.noBtn.setVisibility(onlyYes ? View.GONE : View.VISIBLE);
   }
 
 
@@ -65,6 +70,9 @@ public class YesNoBottomSheet extends BaseBottomSheet {
   @Override
   protected void bindListeners() {
     super.bindListeners();
+
+    if (yesText != null) binding.yesBtn.setText(yesText);
+    if (noText != null) binding.noBtn.setText(noText);
 
     binding.yesBtn.setOnClickListener(view -> mBtnClickListener.click(ButtonId.YES_BTN, view));
     binding.noBtn.setOnClickListener(view -> mBtnClickListener.click(ButtonId.NO_BTN, view));
@@ -88,5 +96,41 @@ public class YesNoBottomSheet extends BaseBottomSheet {
 
   public void setBtnClickListener(BtnClickListener listener) {
     this.mBtnClickListener = listener;
+  }
+
+  public String getMsgText() {
+    return msgText;
+  }
+
+  public YesNoBottomSheet setMsgText(String msgText) {
+    this.msgText = msgText;
+    return this;
+  }
+
+  public boolean isOnlyYes() {
+    return onlyYes;
+  }
+
+  public YesNoBottomSheet setOnlyYes(boolean onlyYes) {
+    this.onlyYes = onlyYes;
+    return this;
+  }
+
+  public String getYesText() {
+    return yesText;
+  }
+
+  public YesNoBottomSheet setYesText(String yesText) {
+    this.yesText = yesText;
+    return this;
+  }
+
+  public String getNoText() {
+    return noText;
+  }
+
+  public YesNoBottomSheet setNoText(String noText) {
+    this.noText = noText;
+    return this;
   }
 }

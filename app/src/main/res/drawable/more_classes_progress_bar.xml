@@ -11,11 +11,11 @@
 
     <!-- Define the progress properties like start color, end color etc -->
     <item android:id="@android:id/progress">
-        <scale android:scaleWidth="100%">
+        <clip>
             <shape>
                 <corners android:radius="999dp" />
                 <solid android:color="@color/theme_color_100" />
             </shape>
-        </scale>
+        </clip>
     </item>
 </layer-list>

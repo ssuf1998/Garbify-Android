@@ -5,6 +5,7 @@
     <color name="theme_color_102">#0039cb</color>
     <color name="theme_color_103">#302962ff</color>
     <color name="theme_color_104">#802962FF</color>
+    <color name="theme_color_105">#798197</color>
     <color name="light_gray">#bbb</color>
-    <color name="dark_gray">#a0a0a0</color>
+    <color name="dark_gray">#8C8C8C</color>
 </resources>

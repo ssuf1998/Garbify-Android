@@ -41,6 +41,11 @@ public class LivePredictActivity extends InnerActivity {
   }
 
   @Override
+  protected void initDB() {
+
+  }
+
+  @Override
   protected void onPause() {
     super.onPause();
     analyzer.pause();
@@ -67,7 +72,7 @@ public class LivePredictActivity extends InnerActivity {
       }
     }, ContextCompat.getMainExecutor(this));
 
-    analyzer.setPredictListener(predict -> {
+    analyzer.setPredictListener((predict) -> {
       binding.livePredictProg.setProgress(Math.round(predict.getConfidence() * 100));
       binding.livePredictClassNameText.setText(
         predict.getClassName()

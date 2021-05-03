@@ -5,7 +5,7 @@ import org.tensorflow.lite.support.common.TensorOperator;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 import org.tensorflow.lite.support.tensorbuffer.TensorBufferFloat;
 
-public class ZeroOneNormalizationOp implements TensorOperator {
+class ZeroOneNormalizationOp implements TensorOperator {
   @Override
   public TensorBuffer apply(TensorBuffer input) {
     int[] shape = input.getShape();

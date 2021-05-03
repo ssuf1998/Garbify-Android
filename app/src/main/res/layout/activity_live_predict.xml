@@ -73,6 +73,7 @@
             android:layout_margin="32dp"
             android:alpha="0.9"
             android:clipChildren="true"
+            android:fitsSystemWindows="true"
             app:cardCornerRadius="999dp"
             app:cardElevation="6dp"
             app:layout_constraintBottom_toBottomOf="parent"

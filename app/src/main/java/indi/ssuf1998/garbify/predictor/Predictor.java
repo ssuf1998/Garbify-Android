@@ -2,11 +2,15 @@ package indi.ssuf1998.garbify.predictor;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
@@ -20,6 +24,8 @@ import org.tensorflow.lite.support.image.TensorImage;
 import org.tensorflow.lite.support.image.ops.ResizeOp;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.ByteBuffer;
@@ -28,10 +34,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
 import indi.ssuf1998.garbify.SharedHelper;
+import indi.ssuf1998.garbify.Utils;
 
 public class Predictor {
+  private final static String MODEL_FILE_NAME = "garbify_mobilenetv3_model.tflite";
+
   private Interpreter interpreter;
-  private JSONObject labels;
+  private Labels labels;
   private final Context context;
 
   public Predictor(Context context) {
@@ -44,7 +53,7 @@ public class Predictor {
         this.interpreter = (Interpreter) sharedHelper.getData("interpreter");
       }
       if (sharedHelper.contains("labels")) {
-        this.labels = (JSONObject) sharedHelper.getData("labels");
+        this.labels = (Labels) sharedHelper.getData("labels");
       }
       return;
     }
@@ -77,7 +86,7 @@ public class Predictor {
     try {
       MappedByteBuffer modelFile = FileUtil.loadMappedFile(
         context,
-        "garbify_mobilenetv3_model.tflite"
+        MODEL_FILE_NAME
       );
       Interpreter interpreter = new Interpreter((ByteBuffer) modelFile);
       sharedHelper.putData("interpreter", interpreter);
@@ -97,15 +106,17 @@ public class Predictor {
     SharedHelper sharedHelper = SharedHelper.getInstance();
 
     if (sharedHelper.contains("labels")) {
-      callback.loaded(null, (JSONObject) sharedHelper.getData("labels"));
+      callback.loaded(null, (Labels) sharedHelper.getData("labels"));
       return;
     }
 
     try {
       InputStream is = context.getAssets().open("garbage.json");
-      JSONObject labels = new JSONObject(
-        IOUtils.toString(is, StandardCharsets.UTF_8)
+      Labels labels = new Gson().fromJson(
+        IOUtils.toString(is, StandardCharsets.UTF_8),
+        Labels.class
       );
+
       sharedHelper.putData("labels", labels);
       callback.loaded(null, labels);
     } catch (Exception e) {
@@ -134,8 +145,7 @@ public class Predictor {
   public float[] run(@NonNull Uri imgUri) throws IOException {
     assert interpreter != null;
     Bitmap bmp = MediaStore.Images.Media.getBitmap(
-      context.getContentResolver(), imgUri
-    );
+      context.getContentResolver(), imgUri);
 
     return run(bmp);
   }
@@ -157,17 +167,13 @@ public class Predictor {
 
     for (int i = 0; i < result.length; i++) {
       int classIdx = predictList.indexOf(sortedPredictList.get(i));
-      try {
-        JSONObject clazz = (JSONObject) ((JSONArray) labels.get("classes")).get(classIdx);
-        int type = (int) clazz.get("type");
-        String typeName = (String) ((JSONArray) labels.get("types")).get(type);
+      Labels.Clazz clazz = labels.getClasses()[classIdx];
+      int type = clazz.getType();
+      String typeName = labels.getTypes()[type];
 
-        result[i] = new ReadablePredict(
-          type, typeName, classIdx, (String) clazz.get("name"), sortedPredictList.get(i)
-        );
-      } catch (JSONException e) {
-        e.printStackTrace();
-      }
+      result[i] = new ReadablePredict(
+        type, typeName, classIdx, clazz.getName(), sortedPredictList.get(i)
+      );
     }
     return result;
   }
@@ -179,7 +185,7 @@ public class Predictor {
   }
 
   @Nullable
-  public JSONObject getLabels() {
+  public Labels getLabels() {
     return labels;
   }
 
@@ -188,6 +194,6 @@ public class Predictor {
   }
 
   public interface LabelsLoadedCallback {
-    void loaded(@Nullable String errMsg, @Nullable JSONObject labels);
+    void loaded(@Nullable String errMsg, @Nullable Labels labels);
   }
 }

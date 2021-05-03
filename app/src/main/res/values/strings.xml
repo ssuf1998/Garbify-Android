@@ -3,10 +3,52 @@
     <string name="live_classify_btn_text">开始分类</string>
     <string name="slogan">垃圾分类小助手</string>
     <string name="pick_a_pic_btn_text">从相册选择</string>
+    <string name="loading_msg">耗时操作，请稍等……</string>
 
     <string name="yes_btn_text">好</string>
     <string name="no_btn_text">不好</string>
 
     <string name="grant_title">权限请求</string>
     <string name="grant_camera_msg">该功能需要相机权限，请授权。</string>
+
+    <string name="grant_read_ex_msg">该功能需要读取外部文件权限，请授权。</string>
+
+    <string name="nav_home_text">主页</string>
+    <string name="nav_home_user">我</string>
+
+    <string name="logout_msg">点我登录</string>
+
+    <string name="predict_history_text">识别历史</string>
+    <string name="garbage_knowledge_text">垃圾分类知识科普</string>
+    <string name="user_profile_text">个人中心</string>
+    <string name="sign_out_text">登出</string>
+    <string name="settings_text">设置</string>
+    <string name="about_me_text">关于</string>
+    <string name="exit_text">退出</string>
+
+    <string name="clear_history_title">清空历史</string>
+    <string name="clear_history_msg">该操作会清空当前用户下的所有识别历史，继续？</string>
+    <string name="history_is_blank_msg">无需清空。</string>
+
+    <string name="about_me_msg">版本：%s</string>
+
+    <string name="sign_out_msg">是否登出？</string>
+
+    <string name="log_in_text">登录</string>
+    <string name="sign_up_text">注册</string>
+
+    <string name="account_input_hint">账号</string>
+    <string name="password_input_hint">密码</string>
+    <string name="password_again_input_hint">确认密码</string>
+    <string name="nickname_input_hint">昵称</string>
+
+    <string name="go_2_sign_up_btn_text">注册账户</string>
+    <string name="go_2_log_in_btn_text">已有账号？去登录</string>
+    <string name="forget_password_btn_text">忘记密码</string>
+
+    <string name="log_in_no_user_err_msg">账户不存在或密码错误。</string>
+    <string name="log_in_suc_msg">欢迎回来！</string>
+
+    <string name="show_id_title">注册成功</string>
+    <string name="show_id_msg">这是您的账号：%s。作为登录的唯一凭证，请妥善保管！</string>
 </resources>

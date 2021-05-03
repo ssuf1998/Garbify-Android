@@ -1,19 +1,15 @@
 package indi.ssuf1998.garbify.predictor;
 
-import android.content.Context;
+import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
-import android.renderscript.Allocation;
-import android.renderscript.Element;
-import android.renderscript.RenderScript;
-import android.renderscript.ScriptIntrinsicYuvToRGB;
+import android.media.Image;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.ImageAnalysis;
 import androidx.camera.core.ImageProxy;
 
-import java.nio.ByteBuffer;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,7 +29,10 @@ public class PredictAnalyzer implements ImageAnalysis.Analyzer {
   private boolean pause;
 
   private PredictListener mPredictListener;
+  YuvToRgbConverter converter = new YuvToRgbConverter(MainActivity.getWeakRef().get());
 
+
+  @SuppressLint("UnsafeOptInUsageError")
   @Override
   public void analyze(@NonNull ImageProxy image) {
     if (!SupportYuvFormats.contains(image.getFormat())) {
@@ -45,54 +44,22 @@ public class PredictAnalyzer implements ImageAnalysis.Analyzer {
       image.close();
       return;
     }
+    Bitmap bmp = Bitmap.createBitmap(
+      image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
 
-    Bitmap bmp = ImageProxy2Bmp(image);
-    mPredictListener.predict(predictor.getReadablePredicts(predictor.run(bmp), 1)[0]);
+    Image realImg = image.getImage();
+    if (realImg != null) {
+      Matrix matrix = new Matrix();
+      matrix.postRotate(image.getImageInfo().getRotationDegrees());
+      converter.yuvToRgb(image.getImage(), bmp);
+      bmp = Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
+      mPredictListener.predict(predictor.getReadablePredicts(predictor.run(bmp), 1)[0]);
+    }
 
     image.close();
     lastTimestamp = cur;
   }
 
-  // https://stackoverflow.com/questions/56772967/converting-imageproxy-to-bitmap
-  // https://stackoverflow.com/questions/28430024/convert-android-media-image-yuv-420-888-to-bitmap
-  private Bitmap ImageProxy2Bmp(ImageProxy image) {
-    final ByteBuffer yBuffer = image.getPlanes()[0].getBuffer();
-    final ByteBuffer vBuffer = image.getPlanes()[1].getBuffer();
-    final ByteBuffer uBuffer = image.getPlanes()[2].getBuffer();
-
-    final int ySize = yBuffer.remaining();
-    final int vSize = vBuffer.remaining();
-    final int uSize = uBuffer.remaining();
-
-    byte[] data = new byte[ySize + vSize + uSize];
-
-    yBuffer.get(data, 0, ySize);
-    vBuffer.get(data, ySize, vSize);
-    uBuffer.get(data, ySize + vSize, uSize);
-
-    final Context c = MainActivity.getWeakRef().get();
-
-    final RenderScript rs = RenderScript.create(c);
-    final Bitmap bmp = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
-    final Allocation allocationRgb = Allocation.createFromBitmap(rs, bmp);
-
-    final Allocation allocationYuv = Allocation.createSized(rs, Element.U8(rs), data.length);
-    allocationYuv.copyFrom(data);
-
-    ScriptIntrinsicYuvToRGB scriptYuvToRgb = ScriptIntrinsicYuvToRGB.create(rs, Element.U8_4(rs));
-    scriptYuvToRgb.setInput(allocationYuv);
-    scriptYuvToRgb.forEach(allocationRgb);
-
-    allocationRgb.copyTo(bmp);
-
-    allocationYuv.destroy();
-    allocationRgb.destroy();
-    rs.destroy();
-
-    Matrix matrix = new Matrix();
-    matrix.postRotate(image.getImageInfo().getRotationDegrees());
-    return Bitmap.createBitmap(bmp, 0, 0, bmp.getWidth(), bmp.getHeight(), matrix, true);
-  }
 
   public interface PredictListener {
     void predict(ReadablePredict predict);
