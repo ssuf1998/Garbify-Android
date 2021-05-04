@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".KnowledgeActivity">
+
+    <com.hjq.bar.TitleBar
+        android:id="@+id/knowledgeTitleBar"
+        android:layout_width="match_parent"
+        android:layout_height="72dp"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:leftIcon="@drawable/ic_chevron_left"
+        app:leftTint="@color/dark_gray"
+        android:elevation="2dp"
+        app:title="@string/garbage_knowledge_text"
+        app:titleStyle="bold"
+        app:titleSize="20sp"
+        app:titleColor="@android:color/black" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintTop_toBottomOf="@id/knowledgeTitleBar"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="32dp">
+
+            <ImageView
+                android:id="@+id/recyclableImg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_text_recyclable"
+                app:layout_constraintDimensionRatio="9:1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/recyclableText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:letterSpacing="0.05"
+                android:lineHeight="24sp"
+                android:text="@string/recyclable_knowledge"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/recyclableImg" />
+
+            <ImageView
+                android:id="@+id/dryImg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="48dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_text_dry"
+                app:layout_constraintDimensionRatio="9:1"
+                app:layout_constraintTop_toBottomOf="@id/recyclableText"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/dryText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:letterSpacing="0.05"
+                android:lineHeight="24sp"
+                android:text="@string/dry_knowledge"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/dryImg" />
+
+            <ImageView
+                android:id="@+id/wetImg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="48dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_text_wet"
+                app:layout_constraintDimensionRatio="9:1"
+                app:layout_constraintTop_toBottomOf="@id/dryText"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/wetText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:letterSpacing="0.05"
+                android:lineHeight="24sp"
+                android:text="@string/wet_knowledge"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/wetImg" />
+
+            <ImageView
+                android:id="@+id/hazardousImg"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="48dp"
+                android:scaleType="fitStart"
+                android:src="@drawable/ic_text_hazardous"
+                app:layout_constraintDimensionRatio="9:1"
+                app:layout_constraintTop_toBottomOf="@id/wetText"
+                app:tint="?attr/colorPrimary" />
+
+            <TextView
+                android:id="@+id/hazardousText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="16dp"
+                android:letterSpacing="0.05"
+                android:lineHeight="24sp"
+                android:text="@string/hazardous_knowledge"
+                android:textSize="16sp"
+                app:layout_constraintTop_toBottomOf="@id/hazardousImg" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/knowledge_src_text"
+                android:textSize="12sp"
+                app:layout_constraintBottom_toBottomOf="@id/bkLogo"
+                app:layout_constraintEnd_toStartOf="@id/bkLogo" />
+
+            <ImageView
+                android:id="@+id/bkLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="22dp"
+                android:layout_marginTop="16dp"
+                android:src="@drawable/bdbk_logo"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/hazardousText" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </ScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

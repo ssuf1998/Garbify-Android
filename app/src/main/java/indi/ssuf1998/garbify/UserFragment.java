@@ -73,6 +73,10 @@ public class UserFragment extends InnerFragment {
     items.add(
       new BaseItem.SimpleItem(getString(R.string.garbage_knowledge_text), null)
         .setItemIcon(R.drawable.ic_book)
+        .setOnItemClickListener(view -> {
+          Intent intent = new Intent(getActivity(), KnowledgeActivity.class);
+          startActivity(intent);
+        })
     );
 //    items.add(
 //      new BaseItem.SimpleItem(getString(R.string.user_profile_text), null)
@@ -144,6 +148,7 @@ public class UserFragment extends InnerFragment {
   }
 
   private void refreshUI() {
+    binding.levelImg.setVisibility(View.GONE);
     userId = preferences.getString(
       Const.SP_LOGGED_USER_ID_KEY, Const.DEFAULT_USER_ID
     );
@@ -165,7 +170,6 @@ public class UserFragment extends InnerFragment {
 //    }[(int) Math.max(0, Math.min(3, Math.ceil(queryUser.getExp() / 100.0)) - 1)];
 //    binding.levelImg.setImageResource(levelId);
 //    binding.levelImg.setVisibility(View.VISIBLE);
-    binding.levelImg.setVisibility(View.GONE);
     binding.nicknameText.setText(queryUser.getNickname());
     Uri avatarUri = Uri.parse(queryUser.getAvatar());
     if (avatarUri != null && !queryUser.getAvatar().isEmpty())
